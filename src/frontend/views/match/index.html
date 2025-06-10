@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Colyseus Test</title>
+</head>
+<body>
+<h1>Colyseus connection test</h1>
+<div>
+    <label for="login">table: </label>
+    <input type="text" id="login" name="login" placeholder="your table">
+    <div id="time"></div>
+</div>
+<button onclick="sendTable()">Send table</button>
+<button onclick="attack()">Attack</button>
+<button onclick="moveEnd()">Move end</button>
+
+
+<pre id="log"></pre>
+
+<!-- Подключаем Colyseus.js как обычный скрипт -->
+<script src="https://unpkg.com/colyseus.js@latest/dist/colyseus.js"></script>
+
+<script>
+    const log = document.getElementById('log');
+    const time = document.getElementById('time');
+
+    function logMsg(msg) {
+        log.textContent += msg + "\n";
+    }
+
+    function updateTime(msg) {
+        time.textContent = "left" + msg
+    }
+
+    const client = new Colyseus.Client("ws://localhost:2567");
+    let room = null;
+
+    const reconnectionToken = localStorage.getItem("reconnectionToken");
+    if (reconnectionToken) {
+        logMsg(`Reconnecting using sessionId... ${reconnectionToken}`);
+        client.reconnect(reconnectionToken)
+            .then(res => {
+                if (room) {
+                    room.leave();
+                    room.removeAllListeners();
+                }
+                room = res;
+                setupRoom(room);
+                logMsg("Reconnected successfully to room: " + room.roomId);
+            }).catch((err) => {
+            logMsg("Catch part");
+            logMsg("Reconnect error: " + err.message);
+            connectNew();
+        });
+    } else {
+        connectNew();
+    }
+
+    function setupRoom(room) {
+        logMsg("Room set UP ");
+        console.log(room)
+        logMsg("Connected to room: " + room.roomId);
+        // Сохраняем sessionId
+        localStorage.setItem("reconnectionToken", room.reconnectionToken);
+        room.onMessage('status', message => {
+            logMsg("Status: " + message);
+        });
+
+        room.onMessage('enemy', message => {
+            console.log(message)
+        })
+
+        room.onMessage('stage', message => {
+            logMsg("Stage: " + JSON.stringify(message, 0, 2));
+        });
+
+        room.onMessage('warning', message => {
+            logMsg("WARNING: " + message);
+        });
+
+        room.onMessage('countdown', message => {
+            updateTime(message);
+        })
+
+        room.onLeave(code => {
+            logMsg("Left the room, code: " + code);
+        });
+    }
+
+    function sendTable() {
+        let val = document.getElementById('login').value.trim().split(' ');
+        val = val.map(item => +item.trim());
+        console.log(val)
+        room.send('table', {table: val});
+    }
+
+    function attack() {
+        let val = document.getElementById('login').value.trim().split(',');
+        val = val.map(item => +item.trim());
+        room.send('attack', {table: val});
+    }
+
+    function connectNew() {
+        client.joinOrCreate("my_room", {
+            token: localStorage.getItem('token')
+        }).then(res => {
+            setupRoom(res);
+            room = res;
+        }).catch(e => {
+            logMsg("Join error: " + e.message);
+        });
+    }
+
+    function moveEnd() {
+        room.send('moveEnd', '')
+    }
+</script>
+
+
+</body>
+</html>

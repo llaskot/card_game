@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="signin/style.css">
+    <title>t01_login</title>
+</head>
+<body>
+<h1>Please sign in</h1>
+<div id="result">
+</div>
+<form  method="POST" action="" >
+    <fieldset>
+        <legend>Input Login and password</legend>
+        <div>
+            <div>
+                <label for="login">Login: </label>
+                <input type="text" id="login" name="login" placeholder="your login" title="Your alias" required minlength="3">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="your password" title="password" required
+                       minlength="4" maxlength="32">
+            </div>
+        </div>
+
+    </fieldset>
+    <div>
+        <button type="reset">CLEAR</button>
+        <button type="submit">SIGN IN</button>
+    </div>
+</form>
+<script src="./signin/script.js"></script>
+</body>
+</html>

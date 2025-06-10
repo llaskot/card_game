@@ -1,0 +1,231 @@
+* {
+    font-family: verdana;
+    font-weight: normal;
+}
+
+.container {
+    /* background-color: gainsboro; */
+    backdrop-filter: blur(35px) brightness(0.8);
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    width: 330px;
+    padding: 40px;
+    padding-top: 0;
+    border-radius: 10px;
+
+}
+
+h1, .btn {
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+form input {
+    height: 30px;
+    margin-block: 5px 10px;
+    border: solid 1px #FF8F00;
+    border-radius: 5px;
+}
+
+@media (max-width: 450px) {
+    form {
+        width: auto;
+    }
+}
+
+#form_wrapper form {
+    padding: 10px;
+    border: solid 1px grey;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    width: 100%;
+    margin: .3rem 0;
+    min-height: 40px;
+    font-size: .95em;
+    border: none;
+    background: #edcb54;
+    padding: 10px;
+    border: solid 2px transparent;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background: #c3a844;
+    border: solid 2px #FF8F00;
+}
+
+.btn#delete_account {
+    color: #edcb54;
+    background: black;
+}
+
+.btn#delete_account:hover {
+    border: solid 2px red;
+}
+
+.small {
+    font-size: .5em;
+}
+
+.error {
+    margin: 0;
+    color: red;
+    font-size: .8rem;
+}
+
+.info {
+    margin: 0;
+    margin-bottom: 1rem;
+    font-size: .9em;
+    color: lightslategray;
+}
+
+.load_icon {
+    --s: 34px;
+    width: var(--s);
+    margin-inline: auto;
+    aspect-ratio: 2;
+    --_g: #000 90%,#0000;
+    background: 
+      radial-gradient(farthest-side at bottom,var(--_g)) 0    calc(50% - var(--s)/16),
+      radial-gradient(farthest-side at top   ,var(--_g)) 0    calc(50% + var(--s)/16),
+      radial-gradient(farthest-side at bottom,var(--_g)) 50%  calc(50% - var(--s)/16),
+      radial-gradient(farthest-side at top   ,var(--_g)) 50%  calc(50% + var(--s)/16),
+      radial-gradient(farthest-side at bottom,var(--_g)) 100% calc(50% - var(--s)/16),
+      radial-gradient(farthest-side at top   ,var(--_g)) 100% calc(50% + var(--s)/16);
+    background-size: 25% 25%;
+    background-repeat: no-repeat;
+    animation: l13 1s infinite linear;
+}
+@keyframes l13 {
+      16.67% {background-position:0 0,0 100%,50% calc(50% - var(--s)/8),50% calc(50% + var(--s)/16),100% calc(50% - var(--s)/16),100% calc(50% + var(--s)/16)}
+      33.33% {background-position:0 0,0 100%,50% 0,50% 100%,100% calc(50% - var(--s)/16),100% calc(50% + var(--s)/16)}
+      50%    {background-position:0 0,0 100%,50% 0,50% 100%,100% 0,100% 100%}
+      66.67% {background-position:0 calc(50% - var(--s)/16),0 calc(50% + var(--s)/16),50% 0,50% 100%,100% 0,100% 100%}
+      83.33% {background-position:0 calc(50% - var(--s)/16),0 calc(50% + var(--s)/16),50% calc(50% - var(--s)/16),50% calc(50% + var(--s)/16),100% 0,100% 100%}
+}
+
+
+.page_loader_wrapper {
+    position: fixed;
+    padding: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.75s, visibility 0.75s;
+    background: #f5f6fb;
+    z-index: 1000;
+}
+
+.page_loader {
+    width: 50px;
+    aspect-ratio: 1;
+    display: grid;
+    border: 4px solid #0000;
+    border-radius: 50%;
+    border-color: #ccc #0000;
+    animation: l16 1s infinite linear;
+}
+.page_loader::before,
+.page_loader::after {    
+    content: "";
+    grid-area: 1/1;
+    margin: 2px;
+    border: inherit;
+    border-radius: 50%;
+}
+.page_loader::before {
+    border-color: #f03355 #0000;
+    animation: inherit; 
+    animation-duration: .5s;
+    animation-direction: reverse;
+}
+.page_loader::after {
+    margin: 8px;
+}
+@keyframes l16 { 
+    100%{transform: rotate(1turn)}
+}
+
+#dialog_wrapper {
+    position: fixed;
+    padding: 0;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display:none;
+    /* z-index: 1000; */
+}
+
+#settings #dialog_wrapper {
+    z-index: 1000;
+}
+
+#dialog_overlay {
+    /* display: none; */
+    opacity: .8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background:#000;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+#dialogbox {
+    /* display: none; */
+    position: fixed;
+    background: #000;
+    border-radius: 7px;
+    z-index: 10;
+    color: white;
+    padding: 10px 20px;
+}
+
+#settings #dialogbox {
+    position: relative;
+}
+
+#dialog_choices {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 8px;
+}
+
+#dialog_choices .cancel {
+    background: grey;
+    color: white;
+}
+
+#dialog_choices .agree {
+    background: grey;
+    color: rgb(158 15 15);
+}
+
+#dialog_choices button {
+    border: solid 2px transparent;
+    outline: none;
+    padding: 10px 15px;
+    margin-inline: 5px;
+    border-radius: 5px;
+}
+
+#dialog_choices button:hover {
+    border: solid 2px white;
+}

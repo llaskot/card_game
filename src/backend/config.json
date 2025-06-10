@@ -1,0 +1,8 @@
+{
+  "host": "localhost",
+  "user": "klazebnyi",
+  "password": "securepass",
+  "database": "card_game",
+  "waitForConnections": true,
+  "connectionLimit": 50
+}

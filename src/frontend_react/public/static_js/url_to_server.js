@@ -1,0 +1,1 @@
+const url_to_server = 'http://localhost:2567'
